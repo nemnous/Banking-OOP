@@ -1,7 +1,7 @@
 package com.nemnous.bank;
 
 import com.nemnous.bank.interfaces.InputReader;
-import com.nemnous.bank.models.ConsoleReader;
+import com.nemnous.bank.services.ConsoleReader;
 
 /**
  * Driver class for the Application.

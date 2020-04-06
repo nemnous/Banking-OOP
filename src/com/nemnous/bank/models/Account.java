@@ -14,7 +14,7 @@ public class Account implements Accountable {
 	private String typeOfAccount;
 
 	/**
-	 * Parameterized constructor.
+	 * Parameterised constructor.
 	 * @param customer
 	 * @param accountNumber
 	 * @param typeOfAccount
@@ -25,6 +25,12 @@ public class Account implements Accountable {
 		this.accountNumber = accountNumber;
 		this.typeOfAccount = typeOfAccount;
 		this.balance = 0;
+	}
+
+	public Account() {
+		/**
+		 * Default Constructor
+		 */
 	}
 
 	/**

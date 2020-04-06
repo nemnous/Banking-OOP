@@ -8,7 +8,7 @@ package com.nemnous.bank.exceptions;
 @SuppressWarnings("serial")
 public class InvalidDetailsException extends RuntimeException {
 
-    private String message;
+    private final String message;
 
     /**
      * Constructor with message.
@@ -32,6 +32,7 @@ public class InvalidDetailsException extends RuntimeException {
      * @return message
      * returns the value of private class variable message.
      */
+    @Override
     public String getMessage() {
         return message;
     }

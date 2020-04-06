@@ -18,7 +18,7 @@ public class Customer {
 	private String addressString;
 
 	/**
-	 * Parameterized Constructor.
+	 * Parameterised Constructor.
 	 * @param name - name of the customer.
 	 * @param phoneNumber - phone number of the customer.
 	 * @param addressString - Address of the customer.
@@ -26,7 +26,7 @@ public class Customer {
 	 * if the name contains numbers and special characters.
 	 */
 	public Customer(final String name, final String phoneNumber,
-			final String addressString) throws InvalidDetailsException {
+			final String addressString) {
 		if (name == null || phoneNumber == null || addressString == null
 				|| name.length() == 0|| phoneNumber.length() == 0|| addressString.length() == 0) {
 			throw new InvalidDetailsException("Details Cannot be Empty");

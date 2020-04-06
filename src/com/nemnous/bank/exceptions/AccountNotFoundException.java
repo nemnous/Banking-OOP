@@ -10,7 +10,7 @@ package com.nemnous.bank.exceptions;
 @SuppressWarnings("serial")
 public class AccountNotFoundException extends RuntimeException {
 
-    private String message;
+    private final String message;
 
     /**
      * Constructor with message as parameter.
@@ -36,6 +36,7 @@ public class AccountNotFoundException extends RuntimeException {
      * getter function for the private variable message.
      * @return message
      */
+    @Override
     public String getMessage() {
         return message;
     }
