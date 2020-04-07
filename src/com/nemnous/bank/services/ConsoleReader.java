@@ -182,7 +182,7 @@ public class ConsoleReader implements InputReader{
 				}
 				key = Integer.parseInt(t);
 			} catch (NumberFormatException e) {
-				logger.log(Level.INFO, "Enter a number");
+				logger.log(Level.WARNING, "Enter a number");
 			}
 
 			switch (key) {
