@@ -43,20 +43,20 @@ public class ConsoleReader implements InputReader{
 	 * This reads required account details from user.
 	 */
 	public void addNewAccount() {
-		System.out.println("Enter Name");
+		logger.log(Level.INFO, "Enter Name");
 		String nameString = scan.nextLine();
-		System.out.println("Enter Phone Number");
+		logger.log(Level.INFO,"Enter Phone Number");
 		String phoneString = scan.nextLine();
-		System.out.println("Enter Address");
+		logger.log(Level.INFO, "Enter Address");
 		String addressString = scan.nextLine();
-		System.out.println("Type of Account \n1. Savings\n"
+		logger.log(Level.INFO, "Type of Account \n1. Savings\n"
 				+ "2. Fixed Account");
 		String temp = scan.nextLine();
 		int t = 0;
 		try {
 			t = Integer.parseInt(temp);
 		} catch (NumberFormatException e) {
-			logger.log(Level.INFO, "Invalid Input Default value set to"
+			logger.log(Level.WARNING, "Invalid Input Default value set to"
 					+ "SAVING");
 		}
 		String typeString;
@@ -69,10 +69,11 @@ public class ConsoleReader implements InputReader{
 			Account account = new Account(
 				new Customer(nameString, phoneString, addressString),
 					generateAccountNumber(), typeString);
-			System.out.println(account);
 			sbiBank.addAccount(account);
+			String tempString = account.toString();
+			logger.log(Level.INFO, tempString);
 		} catch (InvalidDetailsException e) {
-			logger.log(Level.INFO, e.getMessage());
+			logger.log(Level.WARNING, e.getMessage());
 		}
 	}
 	/**
@@ -81,7 +82,8 @@ public class ConsoleReader implements InputReader{
 	 */
 	public void displayAccounts() {
 		for (Account i: sbiBank.getAllAccounts()) {
-			System.out.println(i);
+			String accString = i.toString();
+			logger.log(Level.INFO, accString);
 		}
 	}
 	/**
@@ -89,13 +91,13 @@ public class ConsoleReader implements InputReader{
 	 * to search the Accounts using an Account Number.
 	 */
 	public void searchByAccount() {
-		System.out.println("Enter Account Number to Search:\n");
+		logger.log(Level.INFO, "Enter Account Number to Search:\n");
 		String temp = scan.nextLine();
 		try {
-			System.out.println("Account Details"
-		+ sbiBank.getAccountById(temp));
+			logger.log(Level.INFO, "Account Details"
+					+ sbiBank.getAccountById(temp));
 		} catch (AccountNotFoundException e) {
-			logger.log(Level.INFO, e.getMessage());
+			logger.log(Level.WARNING, e.getMessage());
 		}
 	}
 
@@ -104,23 +106,23 @@ public class ConsoleReader implements InputReader{
 	 * to deposit amount to a specific bank account.
 	 */
 	public void deposit() {
-		System.out.println("Enter Account Number");
+		logger.log(Level.INFO, "Enter Account Number");
 		String acc = scan.nextLine();
-		System.out.println("Enter Amount");
+		logger.log(Level.INFO, "Enter Amount");
 		String tempString = scan.nextLine();
 		float amt;
 		try {
 			amt = Float.parseFloat(tempString);
 		} catch (NumberFormatException e) {
-			logger.log(Level.INFO, "Expected a float Value");
+			logger.log(Level.WARNING, "Expected a float Value");
 			return;
 		}
 		try {
 			Transaction transaction = new Transaction(acc, amt);
 			sbiBank.depositInAccount(transaction);
-			System.out.println("Succesfully Deposited");
+			logger.log(Level.INFO, "Succesfully Deposited");
 		} catch (AccountNotFoundException | InvalidDetailsException e) {
-			logger.log(Level.INFO, e.getMessage());
+				logger.log(Level.WARNING,e.getMessage());
 		}
 	}
 	/**
@@ -128,25 +130,25 @@ public class ConsoleReader implements InputReader{
 	 * to with draw money from a given account.
 	 */
 	public void withdraw() {
-		System.out.println("Enter Account Number");
+		logger.log(Level.INFO, "Enter Account Number");
 		String acc1 = scan.nextLine();
-		System.out.println("Enter Amount");
+		logger.log(Level.INFO, "Enter Amount");
 		String tempString = scan.nextLine();
 		float amt1;
 		try {
 			amt1 = Float.parseFloat(tempString);
 		} catch (NumberFormatException e) {
-			logger.log(Level.INFO, "Expected a float Value");
+			logger.log(Level.WARNING, "Expected a float Value");
 			return;
 		}
 		try {
 			Transaction transaction = new Transaction(acc1, amt1);
 			sbiBank.withdrawFromAccount(transaction);
-			System.out.println("Withdrawn Succesfully");
+			logger.log(Level.INFO, "Withdrawn Succesfully");
 		} catch (AccountNotFoundException
 				| InvalidDetailsException
 				| InsufficientBalanceException e) {
-			logger.log(Level.INFO, e.getMessage());
+			logger.log(Level.WARNING, e.getMessage());
 		}
 	}
 
@@ -156,16 +158,16 @@ public class ConsoleReader implements InputReader{
 	 */
 	public void read() {
 
-		System.out.println("------------------------------"
+		logger.log(Level.INFO,"------------------------------"
 				+ "-----------------------------------------");
 
-		System.out.println("Welcome to  "
+		logger.log(Level.INFO,"Welcome to  "
 					+ sbiBank.getName()
 					+ "  " + sbiBank.getIfsc());
 
 		int key = 0;
 		do {
-			System.out.println("Select operation to perform \n"
+			logger.log(Level.INFO,"Select operation to perform \n"
 					+ "1. Add New Account \n"
 					+ "2. Display All Accounts \n"
 					+ "3. Search By Account \n"
