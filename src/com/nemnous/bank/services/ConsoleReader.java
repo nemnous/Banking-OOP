@@ -44,34 +44,34 @@ public class ConsoleReader implements InputReader{
 	 */
 	public void addNewAccount() {
 		logger.log(Level.INFO, "Enter Name");
-		String nameString = scan.nextLine();
+		String name = scan.nextLine();
 		logger.log(Level.INFO,"Enter Phone Number");
-		String phoneString = scan.nextLine();
+		String phone = scan.nextLine();
 		logger.log(Level.INFO, "Enter Address");
-		String addressString = scan.nextLine();
+		String address = scan.nextLine();
 		logger.log(Level.INFO, "Type of Account \n1. Savings\n"
 				+ "2. Fixed Account");
-		String temp = scan.nextLine();
-		int t = 0;
+		String choice = scan.nextLine();
+		int option = 0;
 		try {
-			t = Integer.parseInt(temp);
+			option = Integer.parseInt(choice);
 		} catch (NumberFormatException e) {
 			logger.log(Level.WARNING, "Invalid Input Default value set to"
 					+ "SAVING");
 		}
-		String typeString;
-		if (t == 2) {
-			typeString = "Fixed Deposit";
+		String type;
+		if (option == 2) {
+			type = "Fixed Deposit";
 		} else {
-			typeString = "Savings";
+			type = "Savings";
 		}
 		try {
 			Account account = new Account(
-				new Customer(nameString, phoneString, addressString),
-					generateAccountNumber(), typeString);
+				new Customer(name, phone, address),
+					generateAccountNumber(), type);
 			sbiBank.addAccount(account);
-			String tempString = account.toString();
-			logger.log(Level.INFO, tempString);
+			String details = account.toString();
+			logger.log(Level.INFO, details);
 		} catch (InvalidDetailsException e) {
 			logger.log(Level.WARNING, e.getMessage());
 		}
@@ -82,8 +82,8 @@ public class ConsoleReader implements InputReader{
 	 */
 	public void displayAccounts() {
 		for (Account i: sbiBank.getAllAccounts()) {
-			String accString = i.toString();
-			logger.log(Level.INFO, accString);
+			String account = i.toString();
+			logger.log(Level.INFO, account);
 		}
 	}
 	/**
@@ -107,18 +107,18 @@ public class ConsoleReader implements InputReader{
 	 */
 	public void deposit() {
 		logger.log(Level.INFO, "Enter Account Number");
-		String acc = scan.nextLine();
+		String account = scan.nextLine();
 		logger.log(Level.INFO, "Enter Amount");
-		String tempString = scan.nextLine();
-		float amt;
+		String deposit = scan.nextLine();
+		float amount;
 		try {
-			amt = Float.parseFloat(tempString);
+			amount = Float.parseFloat(deposit);
 		} catch (NumberFormatException e) {
 			logger.log(Level.WARNING, "Expected a float Value");
 			return;
 		}
 		try {
-			Transaction transaction = new Transaction(acc, amt);
+			Transaction transaction = new Transaction(account, amount);
 			sbiBank.depositInAccount(transaction);
 			logger.log(Level.INFO, "Succesfully Deposited");
 		} catch (AccountNotFoundException | InvalidDetailsException e) {
@@ -131,18 +131,18 @@ public class ConsoleReader implements InputReader{
 	 */
 	public void withdraw() {
 		logger.log(Level.INFO, "Enter Account Number");
-		String acc1 = scan.nextLine();
+		String account = scan.nextLine();
 		logger.log(Level.INFO, "Enter Amount");
-		String tempString = scan.nextLine();
-		float amt1;
+		String withdraw = scan.nextLine();
+		float amount;
 		try {
-			amt1 = Float.parseFloat(tempString);
+			amount = Float.parseFloat(withdraw);
 		} catch (NumberFormatException e) {
 			logger.log(Level.WARNING, "Expected a float Value");
 			return;
 		}
 		try {
-			Transaction transaction = new Transaction(acc1, amt1);
+			Transaction transaction = new Transaction(account, amount);
 			sbiBank.withdrawFromAccount(transaction);
 			logger.log(Level.INFO, "Withdrawn Succesfully");
 		} catch (AccountNotFoundException
@@ -182,7 +182,7 @@ public class ConsoleReader implements InputReader{
 				}
 				key = Integer.parseInt(t);
 			} catch (NumberFormatException e) {
-				logger.log(Level.WARNING, "Enter a number");
+				logger.log(Level.INFO, "Enter a number");
 			}
 
 			switch (key) {

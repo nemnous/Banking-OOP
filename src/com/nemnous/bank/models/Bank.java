@@ -37,9 +37,9 @@ public class Bank implements Bankable {
 		if (id == null || id.equals("")) {
 			throw new InvalidDetailsException("Account number cannot be empty");
 		}
-		for (Account acc : this.accounts) {
-			if (acc.getAccountNumber().equals(id)) {
-				return acc;
+		for (Account i : this.accounts) {
+			if (i.getAccountNumber().equals(id)) {
+				return i;
 			}
 		}
 		throw new AccountNotFoundException("Account Doesnt Exist");
@@ -59,17 +59,17 @@ public class Bank implements Bankable {
 		if (id == null || id.equals("")) {
 			throw new InvalidDetailsException("Account number cannot be empty");
 		}
-		Account tempAccount = null;
-		for (Account account : this.accounts) {
-			if (account.getAccountNumber().equals(id)) {
-				tempAccount = account;
+		Account account = null;
+		for (Account i : this.accounts) {
+			if (i.getAccountNumber().equals(id)) {
+				account = i;
 			}
 		}
-		if (tempAccount == null) {
+		if (account == null) {
 			//Should raise Exception Invalid Account
 			throw new AccountNotFoundException("Account doesnt Exist");
 		}
-		tempAccount.deposit(amount);
+		account.deposit(amount);
 	}
 
 	/**
@@ -85,18 +85,18 @@ public class Bank implements Bankable {
 		if (id == null || id.equals("")) {
 			throw new InvalidDetailsException("Account number cannot be empty");
 		}
-		Account tempAccount = null;
-		for (Account account : this.accounts) {
-			if (account.getAccountNumber().equals(id)) {
-				tempAccount = account;
+		Account account = null;
+		for (Account i : this.accounts) {
+			if (i.getAccountNumber().equals(id)) {
+				account = i;
 			}
 		}
-		if (tempAccount == null) {
+		if (account == null) {
 			//Should raise Exception Invalid Account
 			throw new AccountNotFoundException("Account Doesnt Exist");
 		}
 
-		if (!tempAccount.withdraw(amount)) {
+		if (!account.withdraw(amount)) {
 			//Should raise Insufficient Balance Account
 			throw new InsufficientBalanceException("Insufficient Balance");
 		}
@@ -117,27 +117,6 @@ public class Bank implements Bankable {
 		return accounts;
 	}
 
-	/**
-	 * @param id Account number.
-	 * @return true if the account deleted successfully.
-	 */
-	public boolean removeAccount(final String id) {
-		if (id == null || id == "") {
-			throw new InvalidDetailsException("Account number cannot be empty");
-		}
-		Account tempAccount = null;
-		for (Account account : this.accounts) {
-			if (account.getAccountNumber().equals(id)) {
-				tempAccount = account;
-				break;
-			}
-		}
-		if (tempAccount != null) {
-			return accounts.remove(tempAccount);
-		}
-		return false;
-
-	}
 
 	/**
 	 *

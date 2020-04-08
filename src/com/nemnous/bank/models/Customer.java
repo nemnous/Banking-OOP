@@ -14,21 +14,21 @@ import com.nemnous.bank.exceptions.InvalidDetailsException;
  */
 public class Customer {
 	private String name;
-	private String phoneNumber;
-	private String addressString;
+	private String phone;
+	private String address;
 
 	/**
 	 * Parameterised Constructor.
 	 * @param name - name of the customer.
-	 * @param phoneNumber - phone number of the customer.
-	 * @param addressString - Address of the customer.
+	 * @param phone - phone number of the customer.
+	 * @param address - Address of the customer.
 	 * @throws Invalid details exception if any of the arguments are null
 	 * if the name contains numbers and special characters.
 	 */
-	public Customer(final String name, final String phoneNumber,
-			final String addressString) {
-		if (name == null || phoneNumber == null || addressString == null
-				|| name.length() == 0|| phoneNumber.length() == 0|| addressString.length() == 0) {
+	public Customer(final String name, final String phone,
+			final String address) {
+		if (name == null || phone == null || address == null
+				|| name.length() == 0|| phone.length() == 0|| address.length() == 0) {
 			throw new InvalidDetailsException("Details Cannot be Empty");
 		}
 		if (Pattern.compile("[0-9]").matcher(name).find()) {
@@ -36,15 +36,15 @@ public class Customer {
 		}
 
 		Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}");
-		Matcher m = p.matcher(phoneNumber);
-		boolean checkPhone =  (m.find() && m.group().equals(phoneNumber));
+		Matcher m = p.matcher(phone);
+		boolean checkPhone =  (m.find() && m.group().equals(phone));
 		if (!checkPhone) {
 			throw new InvalidDetailsException("Invalid Phone Number");
 		}
 
 		this.name = name;
-		this.phoneNumber = phoneNumber;
-		this.addressString = addressString;
+		this.phone = phone;
+		this.address = address;
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class Customer {
 	 */
 	@Override
 	public String toString() {
-		return "name=" + name + ", phoneNumber=" + phoneNumber + ", addressString=" + addressString;
+		return "name=" + name + ", phone=" + phone + ", address=" + address;
 	}
 
 	/**
@@ -72,34 +72,34 @@ public class Customer {
 	}
 
 	/**
-	 * returns the private variable phoneNumber.
+	 * returns the private variable phone.
 	 * @return phone
 	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getPhone() {
+		return phone;
 	}
 
 	/**
-	 * sets the private variable phoneNumber.
-	 * @param phoneNumber
+	 * sets the private variable phone.
+	 * @param phone
 	 */
-	public void setPhoneNumber(final String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPhone(final String phone) {
+		this.phone = phone;
 	}
 
 	/**
-	 * returns the private variable addressString.
+	 * returns the private variable address.
 	 * @return address
 	 */
-	public String getAddressString() {
-		return addressString;
+	public String getAddress() {
+		return address;
 	}
 
 	/**
-	 * sets the private variable addressString.
-	 * @param addressString
+	 * sets the private variable address.
+	 * @param address
 	 */
-	public void setAddressString(final String addressString) {
-		this.addressString = addressString;
+	public void setAddress(final String address) {
+		this.address = address;
 	}
 }

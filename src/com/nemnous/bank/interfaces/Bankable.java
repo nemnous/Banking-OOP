@@ -19,13 +19,7 @@ public interface Bankable {
 	 */
 	void addAccount(Account a);
 
-	/**
-	 * Removes account from the bank.
-	 * @param id given the account number removes
-	 * the bank account with that number.
-	 * @return true if the account exists and deleted.
-	 */
-	boolean removeAccount(String id);
+
 
 	/**
 	 * returns account with specific account number.
