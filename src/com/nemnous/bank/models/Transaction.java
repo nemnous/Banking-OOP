@@ -1,4 +1,4 @@
-package com.nemnous.bank.services;
+package com.nemnous.bank.models;
 
 public class Transaction {
 	private final String accountid;

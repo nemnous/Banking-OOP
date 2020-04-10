@@ -3,7 +3,7 @@ package com.nemnous.bank.interfaces;
 import java.util.List;
 
 import com.nemnous.bank.models.Account;
-import com.nemnous.bank.services.Transaction;
+import com.nemnous.bank.models.Transaction;
 
 
 /**

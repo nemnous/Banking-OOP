@@ -31,6 +31,7 @@ public class Customer {
 				|| name.length() == 0|| phone.length() == 0|| address.length() == 0) {
 			throw new InvalidDetailsException("Details Cannot be Empty");
 		}
+
 		if (Pattern.compile("[0-9]").matcher(name).find()) {
 			throw new InvalidDetailsException("Name cannot contain numbers");
 		}

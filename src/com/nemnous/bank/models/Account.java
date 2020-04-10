@@ -54,7 +54,7 @@ public class Account implements Accountable {
 	 * @return true if the withdraw is successful.
 	 */
 	public boolean withdraw(final float amount) {
-		float minbal = 0;
+		final float minbal = 0;
 		if (amount <= 0) {
 			throw new InvalidDetailsException("Withdrawl amount cannot be negative");
 		}

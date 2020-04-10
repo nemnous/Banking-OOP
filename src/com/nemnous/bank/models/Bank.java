@@ -4,7 +4,6 @@ import com.nemnous.bank.exceptions.AccountNotFoundException;
 import com.nemnous.bank.exceptions.InsufficientBalanceException;
 import com.nemnous.bank.exceptions.InvalidDetailsException;
 import com.nemnous.bank.interfaces.Bankable;
-import com.nemnous.bank.services.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +34,14 @@ public class Bank implements Bankable {
 	 */
 	public Account getAccountById(final String id) {
 		if (id == null || id.equals("")) {
-			throw new InvalidDetailsException("Account number cannot be empty");
+			throw new InvalidDetailsException("Account number can't be empty");
 		}
-		for (Account i : this.accounts) {
-			if (i.getAccountNumber().equals(id)) {
-				return i;
+		for (Account account : this.accounts) {
+			if (account.getAccountNumber().equals(id)) {
+				return account;
 			}
 		}
 		throw new AccountNotFoundException("Account Doesnt Exist");
-
 	}
 
 	/**
@@ -53,9 +51,9 @@ public class Bank implements Bankable {
 	 * @throws Invalid details exception when account number is null
 	 * and Account not found exception when account doesn't exist.
 	 */
-	public void depositInAccount(Transaction t) {
-		final String id = t.getAccountid();
-		final float amount = t.getAmount();
+	public void depositInAccount(Transaction transaction) {
+		final String id = transaction.getAccountid();
+		final float amount = transaction.getAmount();
 		if (id == null || id.equals("")) {
 			throw new InvalidDetailsException("Account number cannot be empty");
 		}
@@ -66,7 +64,6 @@ public class Bank implements Bankable {
 			}
 		}
 		if (account == null) {
-			//Should raise Exception Invalid Account
 			throw new AccountNotFoundException("Account doesnt Exist");
 		}
 		account.deposit(amount);
@@ -79,9 +76,9 @@ public class Bank implements Bankable {
 	 * Invalid details Exception.
 	 * Insufficient balance Exception.
 	 */
-	public void withdrawFromAccount(Transaction t) {
-		final String id = t.getAccountid();
-		final float amount = t.getAmount();
+	public void withdrawFromAccount(Transaction transaction) {
+		final String id = transaction.getAccountid();
+		final float amount = transaction.getAmount();
 		if (id == null || id.equals("")) {
 			throw new InvalidDetailsException("Account number cannot be empty");
 		}
@@ -92,12 +89,10 @@ public class Bank implements Bankable {
 			}
 		}
 		if (account == null) {
-			//Should raise Exception Invalid Account
 			throw new AccountNotFoundException("Account Doesnt Exist");
 		}
 
 		if (!account.withdraw(amount)) {
-			//Should raise Insufficient Balance Account
 			throw new InsufficientBalanceException("Insufficient Balance");
 		}
 
@@ -106,8 +101,8 @@ public class Bank implements Bankable {
 	/**
 	 * @param acc account object to add.
 	 */
-	public void addAccount(final Account acc) {
-		this.accounts.add(acc);
+	public void addAccount(final Account account) {
+		this.accounts.add(account);
 	}
 
 	/**
@@ -136,14 +131,14 @@ public class Bank implements Bankable {
 
 	/**
 	 *
-	 * @return private variable ifsc Code
+	 * @return private variable IFSC Code
 	 */
 	public String getIfsc() {
 		return this.ifsc;
 	}
 
 	/**
-	 * sets private variable ifsc code.
+	 * sets private variable IFSC code.
 	 * @param ifsc
 	 */
 	public void setIfsc(final String ifsc) {
