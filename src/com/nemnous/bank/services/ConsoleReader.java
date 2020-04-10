@@ -85,11 +85,12 @@ public class ConsoleReader implements InputReader{
 	 * to display all the accounts data.
 	 */
 	public void displayAccounts() {
-		for (Account i: bank.getAllAccounts()) {
-			String account = i.toString();
-			logger.log(Level.INFO, account);
+		for (Account account: bank.getAllAccounts()) {
+			String details = account.toString();
+			logger.log(Level.INFO, details);
 		}
 	}
+
 	/**
 	 * This function is called when a user requests
 	 * to search the Accounts using an Account Number.
@@ -187,10 +188,10 @@ public class ConsoleReader implements InputReader{
 					+ "6. Exit\n");
 
 			String choice = scan.nextLine();
-			if(!choice.equals("") && choice.matches("\\d+")) {
+			if(!choice.equals("") && choice.matches("\\d+") && choice.length() == 1) {
 				key = Integer.parseInt(choice);
 			} else {
-				logger.log(Level.INFO, "Enter a number");
+				logger.log(Level.INFO, "Enter a valid number");
 				continue;
 			}
 
@@ -210,6 +211,7 @@ public class ConsoleReader implements InputReader{
 			case 5:
 				withdraw();
 				break;
+
 			default:
 				continue;
 			}

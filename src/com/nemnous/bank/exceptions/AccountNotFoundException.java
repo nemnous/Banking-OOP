@@ -16,8 +16,8 @@ public class AccountNotFoundException extends RuntimeException {
      * Constructor with message as parameter.
      * @param msg
      */
-    public AccountNotFoundException(final String msg) {
-        this.message = msg;
+    public AccountNotFoundException(final String message) {
+        this.message = message;
     }
 
 
@@ -27,9 +27,9 @@ public class AccountNotFoundException extends RuntimeException {
      * @param cause
      * @param msg
      */
-    public AccountNotFoundException(final Throwable cause, final String msg) {
+    public AccountNotFoundException(final Throwable cause, final String message) {
         super(cause);
-        this.message = msg;
+        this.message = message;
     }
 
     /**
