@@ -4,7 +4,7 @@ package com.nemnous.bank.interfaces;
  * This is the reader Interface
  * which needs to be implemented by 
  * the reader classes like ConsoleReader,
- * or FileReader
+ * or FileInputReader
  * @author nemnous
  *
  */

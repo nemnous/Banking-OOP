@@ -15,7 +15,7 @@ import com.nemnous.bank.models.Bank;
 import com.nemnous.bank.models.Customer;
 import com.nemnous.bank.models.Transaction;
 
-public class FileReader implements InputReader{
+public class FileInputReader implements InputReader{
 	private final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	String path = "src/com/nemnous/bank/resources/input.txt";
@@ -34,7 +34,7 @@ public class FileReader implements InputReader{
 					new Customer(name, phone, address),
 						accountNumber, type);
 				bank.addAccount(account);
-			logger.log(Level.WARNING, "Account Added Succesfully");
+			logger.log(Level.INFO, "Account Added Succesfully");
 		} catch (InvalidDetailsException e) {
 			logger.log(Level.WARNING, e.getMessage());
 		} catch (IndexOutOfBoundsException  e) {
