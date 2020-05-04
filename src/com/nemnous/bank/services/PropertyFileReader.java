@@ -24,7 +24,7 @@ public class PropertyFileReader implements InputReader{
 	private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	private static final String INVALID_MSG = null;
-	String path = "Resources/config.properties";
+	String path = "resources/config.properties";
 	private final Bank bank = new Bank("SBI", "SBI000IFSC");
 	
 	public void read() {
