@@ -18,7 +18,7 @@ import com.nemnous.bank.models.Transaction;
 public class FileInputReader implements InputReader{
 	private final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	String path = "src/com/nemnous/bank/resources/input.txt";
+	String path = "Resources/input.txt";
 	private final Bank bank = new Bank("SBI", "SBI000IFSC");
 	private static final String INVALID_MSG = "Invalid query";
 	private File file = new File(path);
