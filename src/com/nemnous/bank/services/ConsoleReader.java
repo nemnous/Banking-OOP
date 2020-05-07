@@ -4,24 +4,19 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.nemnous.bank.exceptions.AccountNotFoundException;
-import com.nemnous.bank.exceptions.InsufficientBalanceException;
-import com.nemnous.bank.exceptions.InvalidDetailsException;
 import com.nemnous.bank.interfaces.InputReader;
-import com.nemnous.bank.models.Account;
-import com.nemnous.bank.models.Bank;
-import com.nemnous.bank.models.Customer;
+import com.nemnous.bank.models.Details;
 import com.nemnous.bank.models.Transaction;
 
 /**
  * In this class the input from the console is read.
- * @author nemnous.
+ * @author nemnous.e
  *
  */
 public class ConsoleReader implements InputReader{
 	private final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private final Bank bank = new Bank("SBI", "SBI000IFSC");
+	BankManager bankManager = new BankManager();
 	Scanner scan = new Scanner(System.in);
 	Random random = new Random();
 
@@ -37,99 +32,58 @@ public class ConsoleReader implements InputReader{
 	    }
 	    return new String(digits);
 	}
+
 	/**
 	 * this function is called when a user
 	 * selects to add account to bank.
 	 * This reads required account details from user.
 	 */
-	public void addNewAccount() {
+	public void readAddAccount() {
+		Details details = new Details();
 		logger.log(Level.INFO, "Enter Name");
-		String name = scan.nextLine();
+		details.setName(scan.nextLine());
 		logger.log(Level.INFO, "Enter Phone Number");
-		String phone = scan.nextLine();
+		details.setPhone(scan.nextLine());
 		logger.log(Level.INFO, "Enter Address");
-		String address = scan.nextLine();
+		details.setAddress(scan.nextLine());
 		logger.log(Level.INFO, "Type of Account \n1. Savings\n"
 				+ "2. Fixed Account");
-
+		details.setAccountNumber(generateAccountNumber());
 		String choice = scan.nextLine();
 		int option = 0;
-		if(choice.matches("\\d+")) {
+		try {
 			option = Integer.parseInt(choice);
-		} else {
-			logger.log(Level.INFO, "Invalid Input Default value set to"
-					+ "SAVING");
+		} catch(NumberFormatException e) {
+			logger.log(Level.WARNING, "Invalid Input Default value set to"
+					+ " SAVING");
 		}
 
-		String type;
 		if (option == 2) {
-			type = "Fixed Deposit";
+			details.setType("Fixed Deposit");
 		} else {
-			type = "Savings";
+			details.setType("Savings");
 		}
 
-		try {
-			Account account = new Account(
-				new Customer(name, phone, address),
-					generateAccountNumber(), type);
-			bank.addAccount(account);
-			String details = account.toString();
-			logger.log(Level.INFO, details);
-		} catch (InvalidDetailsException e) {
-			logger.log(Level.WARNING, e.getMessage());
-		}
+		bankManager.addToBank(details);
 	}
 
-	/**
-	 * This function is called when a user requests
-	 * to display all the accounts data.
-	 */
-	public void displayAccounts() {
-		for (Account account: bank.getAllAccounts()) {
-			String details = account.toString();
-			logger.log(Level.INFO, details);
-		}
-	}
 
-	/**
-	 * This function is called when a user requests
-	 * to search the Accounts using an Account Number.
-	 */
-	public void searchByAccount() {
-		logger.log(Level.INFO, "Enter Account Number to Search:\n");
-		String account = scan.nextLine();
-		try {
-			logger.log(Level.INFO, "Account Details"
-					+ bank.getAccountById(account));
-		} catch (AccountNotFoundException e) {
-			logger.log(Level.WARNING, e.getMessage());
-		}
-	}
 
 	/**
 	 * This function is called when user requests
 	 * to deposit amount to a specific bank account.
 	 */
-	public void deposit() {
+	public void readDeposit() {
 		logger.log(Level.INFO, "Enter Account Number");
 		String account = scan.nextLine();
 		logger.log(Level.INFO, "Enter Amount");
 		String deposit = scan.nextLine();
-		float amount;
-		
-		if(deposit.matches("[-+]?[0-9]*\\.?[0-9]+") ) {
-			amount = Float.parseFloat(deposit);
-		} else {
-			logger.log(Level.WARNING, "Expected a float Value");
-			return;
-		}
-
 		try {
+			float amount = Float.parseFloat(deposit);
 			Transaction transaction = new Transaction(account, amount);
-			bank.depositInAccount(transaction);
-			logger.log(Level.INFO, "Succesfully Deposited");
-		} catch (AccountNotFoundException | InvalidDetailsException e) {
-				logger.log(Level.WARNING,e.getMessage());
+			bankManager.depositInBank(transaction);
+		} catch(NumberFormatException e) {
+			logger.log(Level.WARNING, "Enter float value only");
 		}
 	}
 
@@ -137,31 +91,21 @@ public class ConsoleReader implements InputReader{
 	 * this method is called when user requests
 	 * to with draw money from a given account.
 	 */
-	public void withdraw() {
+	public void readWithdraw() {
 		logger.log(Level.INFO, "Enter Account Number");
 		String account = scan.nextLine();
 		logger.log(Level.INFO, "Enter Amount");
 		String withdraw = scan.nextLine();
-		float amount;
-
-		if(withdraw.matches("[-+]?[0-9]*\\.?[0-9]+") ) {
-			amount = Float.parseFloat(withdraw);
-		} else {
-			logger.log(Level.WARNING, "Expected a float Value");
-			return;
-		}
 
 		try {
+			float amount = Float.parseFloat(withdraw);
 			Transaction transaction = new Transaction(account, amount);
-			bank.withdrawFromAccount(transaction);
-			logger.log(Level.INFO, "Withdrawn Succesfully");
-		} catch (AccountNotFoundException
-				| InvalidDetailsException
-				| InsufficientBalanceException e) {
-			logger.log(Level.WARNING, e.getMessage());
+			bankManager.withdrawFromBank(transaction);
+		} catch(NumberFormatException e) {
+			logger.log(Level.WARNING, "Enter float value only");
 		}
 	}
-	
+
 
 	/**
 	 * This method is used to read input from the console.
@@ -171,11 +115,6 @@ public class ConsoleReader implements InputReader{
 
 		logger.log(Level.INFO,"------------------------------"
 				+ "-----------------------------------------");
-
-		logger.log(Level.INFO,"Welcome to  "
-					+ bank.getName()
-					+ "  " + bank.getIfsc());
-
 		int key = 0;
 
 		do {
@@ -197,21 +136,21 @@ public class ConsoleReader implements InputReader{
 
 			switch (key) {
 			case 1:
-				addNewAccount();
+				readAddAccount();
 				break;
 			case 2:
-				displayAccounts();
+				bankManager.displayAccounts();
 				break;
 			case 3:
-				searchByAccount();
+				logger.log(Level.INFO, "Enter account Number");
+				bankManager.searchByAccount(scan.nextLine());
 				break;
 			case 4:
-				deposit();
+				readDeposit();
 				break;
 			case 5:
-				withdraw();
+				readWithdraw();
 				break;
-
 			default:
 				continue;
 			}

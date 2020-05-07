@@ -14,7 +14,7 @@ public class Account implements Accountable {
 	private String typeOfAccount;
 
 	/**
-	 * Parameterised constructor.
+	 * Parameterized constructor.
 	 * @param customer
 	 * @param accountNumber
 	 * @param typeOfAccount

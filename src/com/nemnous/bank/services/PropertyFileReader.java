@@ -7,13 +7,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.nemnous.bank.exceptions.AccountNotFoundException;
-import com.nemnous.bank.exceptions.InsufficientBalanceException;
-import com.nemnous.bank.exceptions.InvalidDetailsException;
 import com.nemnous.bank.interfaces.InputReader;
-import com.nemnous.bank.models.Account;
-import com.nemnous.bank.models.Bank;
-import com.nemnous.bank.models.Customer;
+import com.nemnous.bank.models.Details;
 import com.nemnous.bank.models.Transaction;
 
 import java.io.FileReader;
@@ -23,9 +18,12 @@ public class PropertyFileReader implements InputReader{
 	
 	private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private static final String INVALID_MSG = null;
+	
+	private static final String INVALID_MSG = "Index out of bounds";
+	
 	String path = "resources/config.properties";
-	private final Bank bank = new Bank("SBI", "SBI000IFSC");
+
+	BankManager bankManager = new BankManager();
 	
 	public void read() {
 		Properties property = null;
@@ -49,17 +47,17 @@ public class PropertyFileReader implements InputReader{
 			if (key.contains("addAccount")) {
 				input = property.getProperty(key);
 				details = input.split(" ");
-				addAccount(details);
+				parseAddAccount(details);
 			} else if (key.contains("search")) {
-				searchByAccount(property.getProperty(key));
+				bankManager.searchByAccount(property.getProperty(key));
 			} else if (key.contains("deposit")) {
 				input = property.getProperty(key);
 				details = input.split(" ");
-				deposit(details);
+				parseDeposit(details);
 			} else if (key.contains("withdraw")) {
 				input = property.getProperty(key);
 				details = input.split(" ");
-				withdraw(details);
+				parseWithdraw(details);
 			}
 		}
 	}
@@ -68,76 +66,50 @@ public class PropertyFileReader implements InputReader{
 	 * this method is called when user requests
 	 * to with draw money from a given account.
 	 */
-	public void withdraw(String[] details) {
+	public void parseWithdraw(String[] details) {
 		try {
 			String account = details[0];
 			String withdraw = details[1];
-			float amount;
-			if(withdraw.matches("[-+]?[0-9]*\\.?[0-9]+") ) {
-				amount = Float.parseFloat(withdraw);
-			} else {
-				logger.log(Level.WARNING, "Expected a float Value");
-				return;
-			}
+			float amount = Float.parseFloat(withdraw);
 			Transaction transaction = new Transaction(account, amount);
-			bank.withdrawFromAccount(transaction);
-			logger.log(Level.INFO, "Withdrawn Succesfully");
-		} catch (AccountNotFoundException
-				| InvalidDetailsException
-				| InsufficientBalanceException e) {
-			logger.log(Level.WARNING, e.getMessage());
+			bankManager.withdrawFromBank(transaction);
+		} catch (IndexOutOfBoundsException  e) {
+			logger.log(Level.WARNING, INVALID_MSG);
+		} catch (NumberFormatException e) {
+			logger.log(Level.WARNING, "Expected a float Value");
+		}
+	}
+	
+	public void parseAddAccount(String[] input) {
+		Details details = new Details();
+		try {
+			details.setName(input[0]);
+			details.setPhone(input[1]);
+			details.setAddress(input[2]);
+			details.setAccountNumber(input[3]);
+			details.setType(input[4]);
+			
+			bankManager.addToBank(details);
+
 		} catch (IndexOutOfBoundsException  e) {
 			logger.log(Level.WARNING, INVALID_MSG);
 		}
 	}
 	
-	public void addAccount(String[] details) {
-		try {
-			String name = details[0];
-			String phone = details[1];
-			String address = details[2];
-			String accountNumber = details[3];
-			String type = details[4];
-			Account account = new Account(
-					new Customer(name, phone, address),
-						accountNumber, type);
-				bank.addAccount(account);
-			logger.log(Level.INFO, "Account Added Succesfully");
-		} catch (InvalidDetailsException e) {
-			logger.log(Level.WARNING, e.getMessage());
-		} catch (IndexOutOfBoundsException  e) {
-			logger.log(Level.WARNING, INVALID_MSG);
-		}
-	}
-	
-	public void searchByAccount(String account) {
-		try {
-			logger.log(Level.INFO, "Account Details"
-					+ bank.getAccountById(account));
-		} catch (AccountNotFoundException e) {
-			logger.log(Level.WARNING, e.getMessage());
-		}
-	}
-	
-	public void deposit(String[] details) {
+
+	public void parseDeposit(String[] details) {
 		try {
 			String account = details[0];
-			String deposit = details[1];			
-			float amount;
-			
-			if(deposit.matches("[-+]?[0-9]*\\.?[0-9]+") ) {
-				amount = Float.parseFloat(deposit);
-			} else {
-				logger.log(Level.WARNING, "Expected a float Value");
-				return;
-			}
+			String withdraw = details[1];
+			float amount = Float.parseFloat(withdraw);
 			Transaction transaction = new Transaction(account, amount);
-			bank.depositInAccount(transaction);
-			logger.log(Level.INFO, "Succesfully Deposited");
-		} catch (AccountNotFoundException | InvalidDetailsException e) {
-				logger.log(Level.WARNING,e.getMessage());
+			
+			bankManager.depositInBank(transaction);
+
 		} catch (IndexOutOfBoundsException  e) {
 			logger.log(Level.WARNING, INVALID_MSG);
+		} catch (NumberFormatException e) {
+			logger.log(Level.WARNING, "Expected a float Value");
 		}
 	}
 }
