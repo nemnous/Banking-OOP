@@ -23,8 +23,15 @@ public class PropertyFileReader implements InputReader{
 	
 	String path = "resources/config.properties";
 
+	/**
+	 * Implemented Composition rather than Inheritance.
+	 */
 	BankManager bankManager = new BankManager();
 	
+	/**
+	 * implementing the read method. This reads the file from the path
+	 * and loads the properties.
+	 */
 	public void read() {
 		Properties property = null;
 		try(FileReader reader = new FileReader(path);) {
@@ -63,8 +70,8 @@ public class PropertyFileReader implements InputReader{
 	}
 
 	/**
-	 * this method is called when user requests
-	 * to with draw money from a given account.
+	 * this method is called when the key has withdraw
+	 * this parses the value and get details to make transaction.
 	 */
 	public void parseWithdraw(String[] details) {
 		try {
@@ -80,6 +87,11 @@ public class PropertyFileReader implements InputReader{
 		}
 	}
 	
+	
+	/**
+	 * this method is called when the key has add account
+	 * this parses the value and get details to create new account.
+	 */
 	public void parseAddAccount(String[] input) {
 		Details details = new Details();
 		try {
@@ -96,7 +108,10 @@ public class PropertyFileReader implements InputReader{
 		}
 	}
 	
-
+	/**
+	 * this method is called when the key has withdraw
+	 * this parses the value and get details to make transaction.
+	 */
 	public void parseDeposit(String[] details) {
 		try {
 			String account = details[0];

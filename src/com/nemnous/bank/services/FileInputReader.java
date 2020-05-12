@@ -19,6 +19,11 @@ public class FileInputReader implements InputReader{
 	private static final String INVALID_MSG = "Invalid query";
 	private File file = new File(path);
 	
+	/**
+
+	 * this parses the value and get details to create new account.
+	 * @param input
+	 */
 	public void parseAddAccount(String[] input) {
 		Details details = new Details();
 		try {
