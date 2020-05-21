@@ -1,7 +1,7 @@
-add naveen 9121540557 rajahmundry 234567890101 Savings
-add krishna 8121540557 Hyderabad 234567234563 Savings
+add naveen 9121540557 rajahmundry 234567890101 savings
+add krishna123 8121540557 Hyderabad 234567234563 savings
 displayAll
-add nemnous 9876543210 Bengaluru 234569876512 FixedDeposit
+add nemnous 9876543210 Bengaluru 234569876512 fixed
 displayAll
 search 234567890101
 search 12345

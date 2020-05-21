@@ -30,7 +30,8 @@ public class BankManager {
 			logger.log(Level.WARNING, e.getMessage());
 		}
 	}
-	
+
+
 	public void searchByAccount(String account) {
 		try {
 			logger.log(Level.INFO, "Account Details"

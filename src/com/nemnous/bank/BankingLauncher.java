@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.nemnous.bank.interfaces.InputReader;
 import com.nemnous.bank.services.ConsoleReader;
+import com.nemnous.bank.services.DatabaseConnector;
 import com.nemnous.bank.services.FileInputReader;
 import com.nemnous.bank.services.PropertyFileReader;
 
@@ -27,6 +28,7 @@ public class BankingLauncher {
 		logger.log(Level.INFO, "Press 1 to read from Console\n"
 				+ "Press 2 to read from File\n"
 				+ "Press 3 to read from propeties file\n");
+
 		switch (scan.nextInt()) {
 			case 1:
 				InputReader consoleReader = new ConsoleReader();
@@ -39,6 +41,10 @@ public class BankingLauncher {
 			case 3:
 				InputReader propertiesReader = new PropertyFileReader();
 				propertiesReader.read();
+				break;
+			case 4:
+				InputReader dataBaseConnector = new DatabaseConnector();
+				dataBaseConnector.read();
 				break;
 			default:
 				break;

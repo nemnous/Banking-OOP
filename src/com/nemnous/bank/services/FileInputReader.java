@@ -80,7 +80,7 @@ public class FileInputReader implements InputReader{
 
 
 	/**
-	 * This method is used to read input from the console.
+	 * This method is used to read input from the file.
 	 * It gives the user the options available.
 	 * @throws FileNotFoundException 
 	 */
